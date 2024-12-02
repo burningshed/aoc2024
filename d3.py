@@ -6,11 +6,11 @@ from aocd.models import User
 from tester import tester, Example
 
 # Each day
-Day = None
-Year = None
+Day = 3
+Year = 2022
 ReadyA = False
 ReadyB = False
-TestA = False
+TestA = True
 TestB = False
 
 # get puzzle 
@@ -22,10 +22,12 @@ puz_data = puzzle.input_data
 # Part 1
 def part1(data):
     pass
+
 # part 2
 def part2(data):
     pass
 
+        
 if TestA:
     tester(part1, 'a', puzzle)
     
