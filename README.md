@@ -2,6 +2,7 @@
 
 ## Solutions in Python
 
-dependencies used:
+
+### dependencies used:
 
 aocd (to download puzzle inputs and examples to test against)
