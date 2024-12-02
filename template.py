@@ -27,80 +27,31 @@ def part2(data):
 
 # testing
 working = True
-
-## Part A
-if TestA:
-    print("Testing Part A")
-    num = 1
-    for example in puzzle.examples:
-        print(f"~~~~~~~~~ Example {num} ~~~~~~~~~~")
-        e_data = example.input_data
-        if example.answer_a == None:
-            print("Example has no part A\n")
-            num += 1
-            continue
-        try:
-            ans = part1(e_data)
-        except Exception as e:
-            print(e)
-            working = False
-        if ans != example.answer_a:
-            working = False
-            print("Incorrect Output")
-            print(f"Expected: {example.answer_a}\nActual: {ans}")
-        else:
-            print(f"Example {num} Passed")
-        num += 1
-        print("")
-
-    if working:
-        ansA = part1(puz_data)
-        print(f"Part A Answer: {ansA}")
-
-## Part B
-if TestB:
-    print("Testing Part B")
-    num = 1
-    for example in puzzle.examples:
-        print(f"~~~~~~~~~ Example {num} ~~~~~~~~~~")
-        e_data = example.input_data
-        if example.answer_b == None:
-            num += 1
-            print("Example has no part B\n")
-            continue
-        try:
-            ans = part2(e_data)
-        except Exception as e:
-            print(e)
-            working = False
-        if ans != example.answer_b:
-            working = False
-            print("Incorrect Output")
-            print(f"Expected: {example.answer_b}\nActual: {ans}")
-        else:
-            print(f"Example {num} Passed")
-        num += 1
-        print("")
-
-    if working:
-        ansB = part2(puz_data)
-        print(f"Part B Answer: {ansB}")
         
         
-def tester(solver, part, puz):
+class Example:
+    def __init__(self, input_data, answer_a, answer_b):
+        self.answer_a = answer_a
+        self.answer_b = answer_b
+        self.input_data = input_data
+
+def tester(solver, part, puz, custom_examples=None, debug_mode=False):
     print(f"Testing part {part}")
-    working = True
     
+    if custom_examples == None:
+        examples = puz.examples
+    else:
+        examples = custom_examples
     # Define Example Data Location from Puzzle
     def get_answer(cur_example, cur_part):
         if cur_part == 'a':
             return cur_example.answer_a
-        elif cur_part == 'b':
+        if cur_part == 'b':
             return cur_example.answer_b
             
     # Run through each example
     num = 1
-    for example in puz.examples:
+    for example in examples:
         print(f"~~~~~~ Example {num} ~~~~~~~\n")
         print(example)
         print("")
@@ -113,13 +64,15 @@ def tester(solver, part, puz):
         try:
             ans = solver(e_data)
         except Exception as e:
-            working = False
+            # Turn on debug mode if exception thrown
+            debug_mode = True
             print("Error!")
             print(e)
             num += 1
             continue
         if ans != e_answer:
-            working = False
+            # Turn on debug mode if output doesn't match
+            debug_mode = True
             print("Incorrect Output!")
             print(f"Expected: {e_answer}\n\n Solver Output: {ans}\n")
         else:
@@ -127,7 +80,8 @@ def tester(solver, part, puz):
         num += 1
         print("")
         
-    if working:
+    # run code on real input if debug mode not set
+    if not debug_mode:
         print("Running Real Input")
         try:
             ans = solver(puz.input_data)
@@ -141,6 +95,11 @@ def tester(solver, part, puz):
         
             
             
+if TestA:
+    tester(part1, 'a', puzzle)
+    
+elif TestB:
+    tester(part2, 'b', puzzle)
             
             
             
