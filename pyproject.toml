@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "aoc-2024"
+version = "0.1.0"
+description = "Advent of Code solutions in python"
+authors = ["burningshed <burningshed@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "3.13"
+requests = "^2.32.3"
+bs4 = "^0.0.2"
+numpy = "^2.1.3"
+html5lib = "^1.1"
+aocd = "^0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
