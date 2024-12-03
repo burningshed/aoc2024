@@ -7,11 +7,11 @@ from tester import tester, Example
 
 # Each day
 Day = 3
-Year = 2022
+Year = 2024
 ReadyA = False
 ReadyB = False
-TestA = True
-TestB = False
+TestA = False
+TestB = True
 
 # get puzzle 
 token = open("./.config/aocd/token", 'r').read()
@@ -21,11 +21,31 @@ puz_data = puzzle.input_data
 
 # Part 1
 def part1(data):
-    pass
+    total = 0
+    for part in data.split("mul")[1:]:
+        this_tot = 1
+        if part[0] == '(':
+            working_string = part[1:].split(')')[0].split(',')
+            if len(working_string) != 2:
+                continue
+            try:
+                for term in working_string:
+                    term_val = int(term)
+                    this_tot *= term_val
+            except Exception as e:
+                continue
+            total += this_tot
+    return total
 
 # part 2
 def part2(data):
-    pass
+    class words:
+        def __init__(self):
+            pass
+        def add_word(self, word):
+            self.word = word
+            
+    
 
         
 if TestA:
@@ -43,4 +63,5 @@ if ReadyB:
     
 elif ReadyA:
     ansA = part1(puz_data)
-    puzzle.answer_A = ansA
+    print(ansA)
+    #puzzle.answer_A = ansA
