@@ -26,6 +26,19 @@ def part1(data):
 def part2(data):
     pass
 
+custom_example = [
+    Example(
+        "example_input", 
+        'answer_a', 
+        'answer_b'
+        ),
+    Example(
+        "example 2",
+        'a',
+        'b'
+        )
+    ]
+
 if TestA:
     tester(part1, 'a', puzzle)
     
