@@ -13,6 +13,9 @@ class Example:
         self.answer_a = answer_a
         self.answer_b = answer_b
         self.input_data = input_data
+    
+    def __repr__(self) -> str:
+        return f"Input: {self.input_data}\n Answer A: {self.answer_a}\n Answer B: {self.answer_b}"
 
 def tester(solver, part, puz, custom_examples=None, debug_mode=False):
     """Tests code for Advent of Code
