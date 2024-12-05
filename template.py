@@ -11,7 +11,9 @@ Year = None
 ReadyA = False
 ReadyB = False
 TestA = False
+TestA_custom = False
 TestB = False
+TestB_custom = False
 
 # get puzzle 
 token = open("./.config/aocd/token", 'r').read()
@@ -41,10 +43,15 @@ custom_example = [
 
 if TestA:
     tester(part1, 'a', puzzle)
+
+if TestA_custom:
+    tester(part1, 'a', puzzle, custom_example)
     
-elif TestB:
+if TestB:
     tester(part2, 'b', puzzle)
-            
+    
+if TestB_custom:
+    tester(part2, 'b', puzzle, custom_example)        
             
             
 # solution and submit
