@@ -5,7 +5,6 @@ from aocd.models import Puzzle
 from aocd.models import User
 from aocd import submit
 from tester import tester, Example
-import numpy as np
 import time
 
 # Each day
@@ -100,7 +99,6 @@ def part1(data):
         }
     guard_loc = None
     obs_locs = set()
-    rot =  np.array([[0, -1],[1, 0]])
     yy = 0
     for line in data.splitlines():
         xx = 0
