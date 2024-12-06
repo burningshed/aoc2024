@@ -23,11 +23,9 @@ puz_data = puzzle.input_data
 # Part 1
 def part1(data):
     data = data.lower()
-    str_arr = data.splitlines()
     chr_arr = []
     for line in data.splitlines():
         chr_arr.append([c for c in line])
-    str_arr_np = np.array(str_arr)
     chr_arr_np = np.array(chr_arr)
     def get_xmas(substring):
         return substring.count("xmas")
@@ -38,19 +36,16 @@ def part1(data):
         return cur_tot
     def unnumpy(numpy_arr):
         new_arr = np.array2string(numpy_arr, separator='').replace('\'','').replace('[','').replace(']','').replace('\n','').replace(" ","")
-        print(new_arr)
         return new_arr
     total = 0
     # foreward and back
     for line in chr_arr_np:
         total += get_xmases(unnumpy(line))
     # build angle 90
-    print()
     rot_arr = np.rot90(chr_arr_np)
     for line in rot_arr:
         total += get_xmases(unnumpy(line))
     # get diagonals
-    print()
     def get_diag_xmas(x_arr):
         diags_d, diags_a = x_arr.shape[0], x_arr.shape[1]
         cur_tot = 0
@@ -61,31 +56,23 @@ def part1(data):
         return cur_tot
     
     total += get_diag_xmas(chr_arr_np)
-    print()
     total += get_diag_xmas(np.fliplr(chr_arr_np))
-    #total -= get_xmases(unnumpy(chr_arr_np.diagonal()))
     return str(total)
     
         
 # part 2
 def part2(data):
     data = data.lower()
-    str_arr = data.splitlines()
     chr_arr = []
     for line in data.splitlines():
         chr_arr.append([c for c in line])
-    str_arr_np = np.array(str_arr)
     chr_arr_np = np.array(chr_arr)
     def unnumpy(numpy_arr):
         new_arr = np.array2string(numpy_arr, separator='').replace('\'','').replace('[','').replace(']','').replace('\n','').replace(" ","")
-        print(new_arr)
         return new_arr
     def check_corner(arr, index, cor):
-        print(index, cor)
         cur_index = index + cor
-        print(index, cor, cur_index)
         opp_index = index + np.array(cor) * -1
-        print(opp_index, index, cor, cur_index)
         if arr[cur_index[0],cur_index[1]] == 'm' and arr[opp_index[0], opp_index[1]] == 's':
             return True
         if arr[cur_index[0],cur_index[1]] == 's' and arr[opp_index[0], opp_index[1]] == 'm':
@@ -100,20 +87,14 @@ def part2(data):
                 return False
         return True
                 
-                
-        print(arr[index[0], index[1]])
     total = 0
     
-    print(chr_arr_np)
     active_chr_arr_np = chr_arr_np[1:-1,1:-1]
-    print(active_chr_arr_np)
     a_list = np.argwhere(active_chr_arr_np=='a')+1
     for element in a_list:
         if check_corners(chr_arr_np, element):
             total += 1
-    print()
     return str(total)
-    pass
 
 custom_example = [
     Example(
