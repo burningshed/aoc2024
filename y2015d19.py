@@ -50,11 +50,11 @@ def part1(data):
     return str(count) 
 # part 2
 def part2(data):
-    rules_str, final_target = data.split("\n\n")
-    starter = 'e'
+    rules_str, starter = data.split("\n\n")
+    final_target = 'e'
     rules = dict()
     for rule_str in rules_str.splitlines():
-        origin, dest = rule_str.split(" => ")
+        dest, origin = rule_str.split(" => ")
         rules[origin] = rules.get(origin, []) + [dest]
 
     def scanner(mol_str, target):
@@ -78,13 +78,21 @@ def part2(data):
     def step(begin_set):
         new_targets = set()
         for mol in begin_set:
-            print(begin_set, new_targets)
             new_targets.update(update(mol))
         return new_targets
         
-    for ii in range(10):
-        
-
+    steps = 1
+    mols = step(set([starter]))
+    Done = False
+    while not Done:
+        mols = step(mols)
+        steps += 1
+        Done = final_target in mols
+        if steps > 7:
+            Done = True
+            
+    print(mols)
+    return str(steps)
     
         
     

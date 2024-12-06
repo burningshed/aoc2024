@@ -3,6 +3,7 @@
 # Imports
 from aocd.models import Puzzle
 from aocd.models import User
+from aocd import submit
 from tester import tester, Example
 
 # Each day
@@ -57,8 +58,7 @@ if TestB_custom:
 # solution and submit
 if ReadyB:
     ansB = part2(puz_data)
-    puzzle.answer_B = ansB 
-    
+    submit(ansB, part='b', day=Day, year=Year, session=token)
 elif ReadyA:
     ansA = part1(puz_data)
-    puzzle.answer_A = ansA
+    submit(ansA, part='a', day=Day, year=Year, session=token)
