@@ -5,7 +5,7 @@ from aocd.models import Puzzle
 from aocd.models import User
 from aocd import submit
 from tester import tester, Example
-from aoc_helpers import coord
+from helpers import coord
 T = True
 F = False
 # Each day

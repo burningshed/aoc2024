@@ -1,5 +1,5 @@
 
-def aoc_helpers():
+def helpers():
     pass
 class coord:
     def __init__(self, x, y):
