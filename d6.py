@@ -322,7 +322,8 @@ elif ReadyA:
     submit(ansA, part='a', day=Day, year=Year, session=token)
 
     
-
+ansA = part1(puz_data)
+print(ansA)
 start = time.time()
 ansB = part2(puz_data)
 end = time.time()
