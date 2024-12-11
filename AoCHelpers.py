@@ -1,5 +1,7 @@
 
-def helpers():
+import numpy as np
+
+def AoCHelpers():
     pass
 class coord:
     def __init__(self, x, y):
@@ -22,6 +24,11 @@ class coord:
     def __add__(self, other):
         x = self.x + other.x
         y = self.y + other.y
+        return coord(x,y)
+
+    def __sub__(self, other):
+        x = self.x - other.x
+        y = self.y - other.y
         return coord(x,y)
                     
     def __str__(self) -> str:
@@ -56,3 +63,24 @@ class coord:
             return True
         return False
                     
+def data_to_arr(data):
+    return [[x for x in y] for y in data.splitlines()]
+
+class flat_map_np:
+    def __init__(self, data):
+        self.flat_map = np.array(data_to_arr(data))
+        self.boundries = self.flat_map.shape
+    def check_boundries(self, point_arr):
+        """Checks in points in point_arr are within flat_maps boundries.
+
+        Args:
+            point_arr (numpy array (of points)): Array of points (in form returned by argwhere)
+
+        Returns:
+            bool array: array mirroring point_arr with which elements of point arr are within the boundires of flat_map
+        """
+        x_valid = np.logical_and(point_arr[:,0] >= 0, point_arr[:,0] < self.flat_map.shape[0])
+        y_valid = np.logical_and(point_arr[:,1] >= 0, point_arr[:,1] < self.flat_map.shape[1])
+        return np.logical_and(x_valid, y_valid)
+        
+        

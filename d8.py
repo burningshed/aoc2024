@@ -5,18 +5,19 @@ from aocd.models import Puzzle
 from aocd.models import User
 from aocd import submit
 from tester import tester, Example
-from helpers import coord
+from AoCHelpers import coord
+import numpy as np
 T = True
 F = False
 # Each day
 Day = 8
 Year = 2024
 ReadyA = F
-ReadyB = False
-TestA = T
-TestA_custom = False
-TestB = False
-TestB_custom = False
+ReadyB = T
+TestA = F
+TestA_custom = F
+TestB = T
+TestB_custom = T
 
 # get puzzle 
 token = open("./.config/aocd/token", 'r').read()
@@ -29,10 +30,10 @@ def part1(data):
     map = []
     antennas = dict()
     yy = 0
-    for line in data.splintlines():
+    for line in data.splitlines():
         xx = 0
-        row = line.split()
-        map.append([row])
+        row = [x for x in line]
+        map.append(row)
         for node in row:
             if node == '.':
                 xx += 1
@@ -40,24 +41,139 @@ def part1(data):
             antennas[node] = antennas.get(node, []) + [coord(xx, yy)]
             xx += 1
         yy += 1
-    print(antennas)
+    boundries = [coord(0, 0), coord(yy-1, xx-1)]
         
-    pass
+    def find_antipodes(first, other):
+        direction = first - other
+        a = first + direction
+        b = other - direction
+        #print(a,b)
+        valid = []
+        if not (a <= boundries[0] or a >= boundries[1]):
+            valid.append(a)
+        if not (b <= boundries[0] or b >= boundries[1]):
+            valid.append(b)
+        #print(valid)
+        return valid
+    targets = set()
+    for key in antennas:
+        for ii in range(len(antennas[key])-1):
+            for spot in antennas[key][ii+1:]:
+                targets.update(find_antipodes(antennas[key][ii], spot))
+            
+    print(targets)
+    print(antennas.keys())
+    print(f"Number of Unique Spots: {len(targets)}")    
+    map2 = np.array(map)
+    print(map2)
+    for target in targets:
+        map2[target.y][target.x] = '#'
+    print(map2)
+    return(str(len(targets)))
+
+
 # part 2
 def part2(data):
+    map = []
+    antennas = dict()
+    yy = 0
+    for line in data.splitlines():
+        xx = 0
+        row = [x for x in line]
+        map.append(row)
+        for node in row:
+            if node == '.':
+                xx += 1
+                continue
+            antennas[node] = antennas.get(node, []) + [coord(xx, yy)]
+            xx += 1
+        yy += 1
+    boundries = [coord(0, 0), coord(yy-1, xx-1)]
+    def find_antinode(first, direction):
+        a = first + direction
+        if a <= boundries[0] or a >= boundries[1]:
+            return []
+        return find_antinode(a, direction) + [a]
+    def find_antinodes(first, other):
+        direction = first - other
+        antinode_list_a = find_antinode(first, direction) + [first]
+        antinode_list_b = find_antinode(other, coord(0,0)-direction) + [other]
+        return antinode_list_a + antinode_list_b
+    def find_antipodes(first, other):
+        direction = first - other
+        a = first + direction
+        b = other - direction
+        #print(a,b)
+        valid = []
+        if not (a <= boundries[0] or a >= boundries[1]):
+            valid.append(a)
+        if not (b <= boundries[0] or b >= boundries[1]):
+            valid.append(b)
+        #print(valid)
+        return valid
+    targets = set()
+    for key in antennas:
+        for ii in range(len(antennas[key])-1):
+            for spot in antennas[key][ii+1:]:
+                targets.update(find_antinodes(antennas[key][ii], spot))
+            
+    print(targets)
+    print(antennas.keys())
+    print(f"Number of Unique Spots: {len(targets)}")    
+    """
+    map2 = np.array(map)
+    print(map2)
+    for target in targets:
+        map2[target.y][target.x] = '#'
+    print(map2)"""
+    return(str(len(targets)))
     pass
 
 custom_example = [
     Example(
-        "example_input", 
-        'answer_a', 
-        'answer_b'
+        """..........
+..........
+..........
+....a.....
+..........
+.....a....
+..........
+..........
+..........
+..........""", 
+        '2', 
+        None
         ),
     Example(
-        "example 2",
-        'a',
-        'b'
+        """..........
+..........
+..........
+....a.....
+........a.
+.....a....
+..........
+..........
+..........
+..........""",
+        '4',
+        None
+        ),
+    
+    Example(
+        """T.........
+...T......
+.T........
+..........
+..........
+..........
+..........
+..........
+..........
+..........""",
+        None,
+        '9'
         )
+
     ]
 
 if TestA:
